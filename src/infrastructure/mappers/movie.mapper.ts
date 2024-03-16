@@ -1,0 +1,37 @@
+import {IFullMovie, IMovieModel} from '../../core/models/movie.model';
+import {FullMovieResponse, Result} from '../interfaces/movie-db.responses';
+
+export class MovieMapper {
+  static fromMovieDBResultToModel(result: Result): IMovieModel {
+    return {
+      id: result.id,
+      title: result.title,
+      description: result.overview,
+      releaseDate: new Date(result.release_date),
+      rating: result.vote_average,
+      poster: `https://image.tmdb.org/t/p/w500${result.poster_path}`,
+      backdrop: `https://image.tmdb.org/t/p/w500${result.backdrop_path}`,
+    };
+  }
+
+  static fromMovieDBResultToFullMovieModel(
+    result: FullMovieResponse,
+  ): IFullMovie {
+    return {
+      id: result.id,
+      title: result.title,
+      description: result.overview,
+      releaseDate: new Date(result.release_date),
+      rating: result.vote_average,
+      poster: `https://image.tmdb.org/t/p/w500${result.poster_path}`,
+      backdrop: `https://image.tmdb.org/t/p/w500${result.backdrop_path}`,
+      budget: result.budget,
+      duration: result.runtime,
+      genres: result.genres.map(genre => genre.name),
+      originalTitle: result.original_title,
+      productionCompanies: result.production_companies.map(
+        companie => companie.name,
+      ),
+    };
+  }
+}
